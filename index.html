@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        tr{
+            text-align: center;
+        }
+        input {
+            width: 400px;
+            border-radius: 5%;
+            color: black;
+        }
+        button{
+            border-radius: 20%;
+        }
+    </style>
+</head>
+<body>
+<h1 style="text-align: center">============ student manage==============</h1>
+<label id="validate"></label> <br>
+<input id="newStudent" type="text" placeholder="creat form for new student" style=" background-color: wheat">
+<button onclick="creatStudent()" style="background-color: yellow">Creat Student </button>
+<input id="search" placeholder="please fill in the form to search " oninput="actionSearch()" type="text" style="background-color: wheat; color: darkmagenta " >
+<button onclick="actionSearch()" style="background-color: cadetblue">search</button>
+<table border="1" style="width: 100%">
+
+    <tr>
+        <th>STT</th>
+        <th>NAME</th>
+        <th>EDIT</th>
+        <th>DELETE</th>
+    <tbody id="drawTable">
+<!--    </tr>-->
+
+<!--    <tr>-->
+<!--        <td>1</td>-->
+<!--        <td>Mai Gau</td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td>2</td>-->
+<!--        <td>Haibara</td>-->
+<!--    </tr>-->
+    </tbody>
+<script>
+    let studentList= ["Mai Gau", "Haibara", "Mai Thanh Duong", "conan"];
+     function showListStudent(){
+        let drawTable = ' ';
+        for (let i = 0; i < studentList.length ; i++) {
+        // drawTable+= ' <tr>' +
+        //     '<td>'+(i+1)+'</td>'+
+        //     '<td>'+ studentList[i]+'</td>'
+        //     '<tr>'
+            //c2 mow bien qua ``
+
+            drawTable += `<tr>
+                        <td>${i+1}</td>
+                         <td>${studentList[i]}</td>
+                         <td><button style="color: red" onclick="updateStudent(${i})">Edit</button></td>
+                         <td><button style="color: red" onclick="deleteStudent(${i})">Delete</button></td>
+                        </tr>`
+        }
+        document.getElementById('drawTable').innerHTML= drawTable;
+    }
+    showListStudent()
+//cay dung ham creat student
+function  creatStudent(){
+        let newStudent= document.getElementById('newStudent').value;
+        if (newStudent.trim()=== ''){
+            document.getElementById('validate').innerHTML= '<label style="color: red">the name is requite! please try again</label>'
+        }else {
+            studentList.push(newStudent);
+            document.getElementById('validate').innerHTML= '<label style="color: blue"> Create Success </label>'
+            showListStudent()
+        }
+}
+
+// xay dung ham update student
+ function updateStudent(id){
+     let updateStudent = prompt( 'enter the new student to Update:', 'Old Name:' +studentList[id] );
+     if (updateStudent.trim()=== ''){
+         document.getElementById('validate').innerHTML= '<label style="color: red">the name is requite! please try again</label>'
+     }else{
+         if (updateStudent === studentList[id]){
+             document.getElementById('validate').innerHTML= '<label style="color: red">the name is existed! please try again</label>'
+         }else {
+             studentList[id]= updateStudent;
+             document.getElementById('validate').innerHTML= '<label style="color: red"> Create Success </label>'
+             showListStudent()
+         }
+             }
+ }
+
+//4 xay dung ham delete student
+    function deleteStudent(id){
+        if (confirm('are you sure delete student?')){
+            studentList.splice(id, 1)
+            document.getElementById('validate').innerHTML= '<label style="color: red"> delete Success </label>'
+            showListStudent()
+        }else {
+            document.getElementById('validate').innerHTML='<lable style="color: blue" > not delete is ok</lable>'
+        }
+    }
+
+//xay dung chuc năng search
+    let listStudentSearch = [];
+function actionSearch(){
+    listStudentSearch= [];
+    // return;
+         let search= document.getElementById('search').value;
+         if (search.trim()=== ''){
+             showListStudent();
+         }else {
+             for (let i = 0; i <studentList.length ; i++) {
+                 if (search.toLowerCase()===studentList[i].toLowerCase()){
+                     listStudentSearch.push(studentList[i])
+                 }
+             }
+         }
+         // tim kiem tuowng doi
+    for (let i = 0; i < studentList.length ; i++) {
+        if(studentList[i].toLowerCase().search(search)!=-1){
+            listStudentSearch.push(studentList[i])
+        }
+    }
+         showListSearch()
+    }
+    function showListSearch(){
+            let drawTable = ' ';
+            for (let i = 0; i < listStudentSearch.length ; i++) {
+
+                drawTable += `<tr>
+                        <td>${i+1}</td>
+                         <td>${listStudentSearch[i]}</td>
+                         <td><button style="color: red" onclick="updateStudent(${i})">Edit</button></td>
+                         <td><button style="color: red" onclick="deleteStudent(${i})">Delete</button></td>
+                        </tr>`
+            }
+            document.getElementById('drawTable').innerHTML= drawTable;
+    }
+
+
+
+</script>
+
+</body>
+</html>'
